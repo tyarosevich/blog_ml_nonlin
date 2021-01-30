@@ -1,15 +1,8 @@
-
-import pandas as pd
 import numpy as np
-from keras.preprocessing.sequence import pad_sequences
-import seaborn as sns
-import matplotlib.pyplot as plt
-from keras.models import Sequential, load_model
-from keras.layers.core import Activation, Dense
-from keras.models import Sequential, load_model
-from keras import Input
+
+from keras.layers.core import Dense
+from keras.models import Sequential
 import keras.backend as K
-from mpl_toolkits.mplot3d import Axes3D
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.animation as animation
@@ -18,7 +11,8 @@ plt.rcParams["animation.html"] = "jshtml"
 import mpl_toolkits.mplot3d.axes3d as p3
 import matplotlib.pyplot as plt
 import seaborn as sns
-#%%
+
+# Some figure settings.
 sns.set(font='Franklin Gothic Book',
         rc={
  'axes.axisbelow': False,
@@ -46,7 +40,7 @@ sns.set_context("notebook", rc={"font.size":16,
                                 "axes.labelsize":18})
 
 
-#%%
+# Builds 5 sequential models and saves the activation outputs.
 outputs = []
 for i in range(5):
     n=100
@@ -72,23 +66,16 @@ for i in range(5):
     xyz = xyz[0, :, :]
     outputs.append(xyz)
 
-
-# %%
+# Stack the activation outputs into a 100x3x5 matrix
 mat = np.dstack(tuple(outputs))
 
-#%%
-
-test = data[:,:,1]
-#%%
 # Set up formatting for the movie files
 Writer = animation.writers['ffmpeg']
 writer = Writer(fps=5, metadata=dict(artist='Me'), bitrate=1800)
-# %%
-t = np.arange(0,100)
-# df = pd.DataFrame({"time": t ,"x" : mat[:,0, :], "y" : mat[:,1, :], "z" : mat[:,2, :]})
 
+# Update function for animation. Passes all 5 x,y,z values
+# as arrays.
 def update_graph(i):
-    # data=df[df['time']==num]
     graph.set_data(mat[i, 0, :], mat[i, 1, :])
     graph.set_3d_properties(mat[i, 2,:],'z')
     fig.suptitle('3D Test, time={}'.format(i))
@@ -105,7 +92,6 @@ ax.set_ylim(0,1)
 ax.set_zlim(0,1)
 title = fig.suptitle('3D Test')
 
-# data=df[df['time']==0]
 graph, = ax.plot(mat[0, 0, :], mat[0, 1, :], mat[0, 2, :], linestyle="", marker="o")
 
 ani = animation.FuncAnimation(fig, update_graph,
