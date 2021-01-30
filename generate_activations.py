@@ -84,12 +84,12 @@ def update_graph(i):
 
 fig = plt.figure()
 ax = p3.Axes3D(fig)
-ax.set_xlim(0,1)
+ax.set_xlim(0,.7)
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
-ax.set_ylim(0,1)
-ax.set_zlim(0,1)
+ax.set_ylim(0,.7)
+ax.set_zlim(0,.7)
 title = fig.suptitle('3D Test')
 
 graph, = ax.plot(mat[0, 0, :], mat[0, 1, :], mat[0, 2, :], linestyle="", marker="o")
