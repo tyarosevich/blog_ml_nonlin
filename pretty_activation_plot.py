@@ -25,7 +25,7 @@ sns.set_context("notebook", rc={"font.size":16,
 
 # Builds 5 sequential models and saves the activation outputs.
 outputs = []
-for i in range(5):
+for i in range(3):
     n=100
     model = Sequential()
     model.add(Dense(units=3, activation='relu', input_shape=(3,) ))
@@ -36,7 +36,7 @@ for i in range(5):
     input=np.random.rand(1,3) * 10
     dummy_train= np.ndarray([1])
 
-    model.fit(input, dummy_train, epochs=1)
+    model.fit(input, dummy_train, epochs=3)
 
     current_outs = []
     for layer in model.layers:
