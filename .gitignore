@@ -3,3 +3,4 @@ models/
 notebooks/
 im.mp4
 generate_activations.py
+discarded_code.py

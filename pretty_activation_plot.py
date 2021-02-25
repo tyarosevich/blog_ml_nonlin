@@ -14,6 +14,7 @@ plt.rcParams["animation.html"] = "jshtml"
 import seaborn as sns
 from matplotlib import pyplot as plt
 from matplotlib import animation
+from keras.callbacks import LambdaCallback
 
 # Some figure settings.
 sns.set(
@@ -25,18 +26,19 @@ sns.set_context("notebook", rc={"font.size":16,
 
 # Builds 5 sequential models and saves the activation outputs.
 outputs = []
+
+
 for i in range(3):
     n=100
     model = Sequential()
     model.add(Dense(units=3, activation='relu', input_shape=(3,) ))
     for i in range(n):
         model.add(Dense(units=3, activation='sigmoid'))
-    model.add(Dense(units=1, activation='sigmoid'))
+    model.add(Dense(units=3, activation='sigmoid'))
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
-    input=np.random.rand(1,3) * 10
-    dummy_train= np.ndarray([1])
-
-    model.fit(input, dummy_train, epochs=3)
+    input = np.random.rand(1, 3) * 3
+    targets = input ** 3 + input ** 4 - input
+    model.fit(input, targets, epochs=3)
 
     current_outs = []
     for layer in model.layers:
@@ -49,9 +51,10 @@ for i in range(3):
     xyz = xyz[0, :, :]
     outputs.append(xyz)
 
-
 x_t = np.asarray(outputs)
-
+#%%
+############# NOTE: the current saved mp4 is a good one to keep, since the training did flip to 1.0 accuracy
+############# and had continual decrease in loss, so it represents something like typical 'learning'.
 # Set up figure & 3D axis for animation
 fig = plt.figure()
 ax = fig.add_axes([0, 0, 1, 1], projection='3d')
