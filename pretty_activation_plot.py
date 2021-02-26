@@ -28,8 +28,8 @@ sns.set_context("notebook", rc={"font.size":16,
 outputs = []
 
 
-for i in range(3):
-    n=100
+for i in range(30):
+    n=10
     model = Sequential()
     model.add(Dense(units=3, activation='relu', input_shape=(3,) ))
     for i in range(n):
@@ -38,7 +38,7 @@ for i in range(3):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
     input = np.random.rand(1, 3) * 3
     targets = input ** 3 + input ** 4 - input
-    model.fit(input, targets, epochs=3)
+    model.fit(input, targets, epochs=1)
 
     current_outs = []
     for layer in model.layers:
@@ -52,16 +52,20 @@ for i in range(3):
     outputs.append(xyz)
 
 x_t = np.asarray(outputs)
+# Reshape to the three sets of 100 stacked points. This was what I originally
+# coded it for, (300,3) would have been more sensible.
+x_t = np.reshape(x_t, (3, 100, 3))
+
+
 #%%
-############# NOTE: the current saved mp4 is a good one to keep, since the training did flip to 1.0 accuracy
-############# and had continual decrease in loss, so it represents something like typical 'learning'.
+
 # Set up figure & 3D axis for animation
 fig = plt.figure()
 ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 ax.axis('off')
 N_trajectories = 5
 # choose a different color for each trajectory
-colors = plt.cm.jet(np.linspace(0, 1, N_trajectories))
+colors = plt.cm.viridis(np.linspace(0, 1, N_trajectories))
 
 # set up lines and points
 lines = sum([ax.plot([], [], [], '-', c=c)
