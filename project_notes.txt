@@ -1,0 +1,2 @@
+Instead of this stupid idea of having activations from one deep neural net, instead produce a set of input/outputs from some stupid nonlinear funciton like
+x^3 + exp(x) and try training neural net with a bunch of small logistic regression layers and plot the activations across multiple epochs.
